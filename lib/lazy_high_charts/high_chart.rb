@@ -1,3 +1,39 @@
+#from 
+#http://snippets.dzone.com/posts/show/4706
+class Hash
+
+  # Merges self with another hash, recursively.
+  # 
+  # This code was lovingly stolen from some random gem:
+  # http://gemjack.com/gems/tartan-0.1.1/classes/Hash.html
+  # 
+  # Thanks to whoever made it.
+
+  def deep_merge(hash)
+    target = dup
+    
+    hash.keys.each do |key|
+      if hash[key].is_a? Hash and self[key].is_a? Hash
+        target[key] = target[key].deep_merge(hash[key])
+        next
+      end
+      
+      target[key] = hash[key]
+    end
+    
+    target
+  end
+  def deep_merge!(second)
+    second.each_pair do |k,v|
+      if self[k].is_a?(Hash) and second[k].is_a?(Hash)
+        self[k].deep_merge!(second[k])
+      else
+        self[k] = second[k]
+      end
+    end
+  end
+end
+
 module LazyHighCharts
   class HighChart
     CANVAS_DEFAULT_HTML_OPTIONS = { :style => "height: 300px, width:615px" }
@@ -23,15 +59,16 @@ module LazyHighCharts
     #	title:		legend: 		xAxis: 		yAxis: 		tooltip: 	credits:  :plotOptions
 
     def defaults_options
-      self.title({ :text=>"example test title from highcharts gem"})
-      self.legend({ :layout=>"vertical", :style=>{} }) 
-      self.xAxis({})
-      self.yAxis({ :title=> {:text=> nil}, :labels=>{} })
-      self.tooltip({ :enabled=>true })
-      self.credits({ :enabled => false})
-      self.plotOptions({ :areaspline => { } })
-      self.chart({ :defaultSeriesType=>"areaspline" , :renderTo => nil})
-      self.subtitle({})
+    self.title({:style=>{:fontFamily=>'Helvetica, Arial, Sans-Serif;', :fontSize=>'18px;', :fontWeight=>'bold', :color=>'black'}})
+    self.legend({:borderWidth=> 1, :backgroundColor=>'#FFFFFF'}) 
+    self.x_axis({})
+    self.y_axis({})
+    self.tooltip({ :enabled=>true })
+    self.credits({:enabled => false})
+    self.colors([].to_json)
+    self.plot_options({})
+    self.chart({:defaultSeriesType=>"line" , :renderTo => nil})
+    self.subtitle({})
     end
 
 
@@ -65,7 +102,7 @@ private
     end
 
     def merge_options(name, opts)
-      @options.merge!  name => opts
+      @options.deep_merge!  name => opts
     end
 
     def arguments_to_options(args)

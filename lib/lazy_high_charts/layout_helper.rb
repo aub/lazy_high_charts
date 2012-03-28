@@ -5,7 +5,7 @@ module LazyHighCharts
     def high_chart(placeholder, object  , &block)
       object.html_options.merge!({:id=>placeholder})
       object.options[:chart][:renderTo] = placeholder
-      high_graph(placeholder,object , &block).concat(content_tag("div","", object.html_options))
+      high_graph(placeholder,object , &block)#.concat(content_tag("div","", object.html_options))
     end
 
     def high_stock(placeholder, object  , &block)
