@@ -26,7 +26,11 @@ module LazyHighCharts
       options_collection = []
       object.options.keys.each do |key|
         k = key.to_s.camelize.gsub!(/\b\w/) { $&.downcase }
-        options_collection << "#{k}: #{object.options[key].to_json}"
+        if k == "onclick"
+          options_collection << "#{k}: #{object.options[key]}"
+        else
+          options_collection << "#{k}: #{object.options[key].to_json}"
+        end
       end
       options_collection << "series: #{object.data.to_json}"
 
