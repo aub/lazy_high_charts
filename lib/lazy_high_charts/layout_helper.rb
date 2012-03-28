@@ -37,7 +37,9 @@ module LazyHighCharts
         window.onload = function(){
           if (typeof onload == "function") onload();
           var options, chart;
-          options = { #{options_collection.join(",")} };
+          options = { #{options_collection.join(",")},
+                    exporting: {buttons: {printButton: {enabled: false}, exportButton: {menuItems: null, onclick: function() {this.exportChart();}}}, url: "/svg/create"}
+                   };
           #{formatter if formatter}
           chart = new Highcharts.#{type}(options);
         };
