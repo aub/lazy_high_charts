@@ -23,7 +23,7 @@ module LazyHighCharts
     end
 
     def build_html_output(type, placeholder, object, formatter=nil)
-      options_collection = jsonify_hash_with_exceptions(object.options, ["onclick", "load"])
+      options_collection = jsonify_hash_with_exceptions(object.options, ["onclick", "load", "formatter"])
       options_collection << "series: #{object.data.to_json}"
 
       graph =<<-EOJS
