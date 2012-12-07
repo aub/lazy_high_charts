@@ -28,12 +28,12 @@ module LazyHighCharts
 
       graph =<<-EOJS
       <script type="text/javascript">
-        $(document).bind("page:change", function() {
+        (function() {
           var options, chart;
           options = { #{options_collection.join(",")} };
           #{formatter if formatter}
           chart = new Highcharts.#{type}(options);
-        });
+        })();
       </script>
       EOJS
 
