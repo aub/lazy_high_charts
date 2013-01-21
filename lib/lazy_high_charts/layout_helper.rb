@@ -32,7 +32,7 @@ module LazyHighCharts
         $(window).one("page:change", function() {
           if($("##{placeholder}").length > 0) {
             var options;
-            options = { #{options_collection.join(",")} };
+            options = { #{options_collection.join(",").gsub(/(\"(Date.UTC\(\d{4}, \d?\d, \d?\d\))\")/, '\2')} };
             #{formatter if formatter}
             chart_#{placeholder} = new Highcharts.#{type}(options);
           }
