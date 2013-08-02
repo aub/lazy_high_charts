@@ -7,7 +7,9 @@ module LazyHighCharts
 
     class Railtie < ::Rails::Railtie
       config.before_configuration do
-        config.action_view.javascript_expansions[:high_charts] = %w(highcharts)
+        if config.action_view.javascript_expansions
+          config.action_view.javascript_expansions[:high_charts] = %w(highcharts)
+        end
       end
 
       initializer 'lazy_high_charts.initialize' do
